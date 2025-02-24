@@ -22,6 +22,7 @@ class CaSettings(BaseSettings):
     cert_lifetime: timedelta = timedelta(days=60)
     crl_lifetime: timedelta = timedelta(days=7)
     encryption_key: Optional[SecretStr] = None  # encryption of private keys in database
+    encryption_passwd: Optional[SecretStr] = None  # encryption of private password in database
     import_dir: Path = '/import'
 
     model_config = SettingsConfigDict(env_prefix='ca_')

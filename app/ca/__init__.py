@@ -28,7 +28,7 @@ if settings.ca.enabled:
         if (settings.ca.import_dir / 'ca.pem').is_file() and (settings.ca.import_dir / 'ca.key').is_file():
             with open(settings.ca.import_dir / 'ca.key', 'rb') as f:
                 ca_key_bytes = f.read()
-            ca_key = serialization.load_pem_private_key(ca_key_bytes, None)
+            ca_key = serialization.load_pem_private_key(ca_key_bytes, settings.ca.encryption_passwd.get_secret_value().encode())
             f = Fernet(settings.ca.encryption_key.get_secret_value())
             ca_key_enc = f.encrypt(ca_key_bytes)
 

@@ -51,7 +51,10 @@ async def load_active_ca():
 def load_ca_sync(*, cert_pem, key_pem_enc):
     f = Fernet(settings.ca.encryption_key.get_secret_value())
     key_pem = f.decrypt(key_pem_enc)
-    ca_key = serialization.load_pem_private_key(key_pem, None)
+    try:
+        ca_key = serialization.load_pem_private_key(key_pem, None)
+    except:
+        ca_key = serialization.load_pem_private_key(key_pem, settings.ca.encryption_passwd.get_secret_value().encode())
     ca_cert = x509.load_pem_x509_certificate(cert_pem.encode(), None)
     return ca_cert, ca_key
 
